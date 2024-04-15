@@ -74,6 +74,8 @@ const obj = {
   price: null,
 };
 
+
+
 steps.forEach((step) => {
   const nextBtn = step.querySelector(".nextstp");
   const prevBtn = step.querySelector(".prevstp");
@@ -108,21 +110,66 @@ function summary(obj) {
 }
 function validateForm() {
   let valid = true;
+
+  // Reset errors
+  emailError.style.display = "none";
+  phoneError.style.display = "none";
+  usernameError.style.display = "none";
+
+  // Email validation
+  const emailValue = emailInput.value.trim();
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (emailValue === '') {
+    valid = false;
+    emailError.style.display = "block";
+    emailInput.classList.add("err");
+  } else if (!emailPattern.test(emailValue)) {
+    valid = false;
+    emailInput.classList.add("err");
+    emailError.style.display = "block";
+  }
+
+  // Phone validation
+  const phoneNumberValue = phoneNumberField.value.trim();
+  const phonePattern = /^\d{10}$/;
+  if (phoneNumberValue === '') {
+    valid = false;
+    phoneError.style.display = "block";
+    phoneNumberField.classList.add("err");
+  } else if (!phonePattern.test(phoneNumberValue)) {
+    valid = false;
+    phoneNumberField.classList.add("err");
+    phoneError.style.display = "block";
+  }
+
+  // Username validation
+  const usernameValue = nameInput.value.trim();
+  const usernameRegex = /^[A-Za-z\s]+$/;
+  if (usernameValue === '') {
+    valid = false;
+    usernameError.style.display = "block";
+    nameInput.classList.add("err");
+  } else if (!usernameRegex.test(usernameValue)) {
+    valid = false;
+    nameInput.classList.add("err");
+    usernameError.style.display = "block";
+  }
+
+  // Other form inputs validation
   for (let i = 0; i < formInputs.length; i++) {
     if (!formInputs[i].value) {
       valid = false;
       formInputs[i].classList.add("err");
       findLabel(formInputs[i]).nextElementSibling.style.display = "flex";
     } else {
-      valid = true;
       formInputs[i].classList.remove("err");
-
-
       findLabel(formInputs[i]).nextElementSibling.style.display = "none";
     }
   }
+
   return valid;
 }
+
 
 // validation starts
 const nameInput = document.getElementById('name');
@@ -202,6 +249,7 @@ function validatePhoneNumber(event) {
     phoneNumberField.classList.add("invalid");
     phoneError.style.display = "block";
     submit.classList.add("notallowed");
+    
   } else {
     phoneNumberField.classList.remove("invalid");
     phoneError.style.display = "none";
@@ -229,6 +277,13 @@ document.getElementById('image').addEventListener('change', function() {
 
   }
 });
+
+
+
+
+
+
+
 
 
 
@@ -391,7 +446,7 @@ function loadFormData() {
   if (savedData) {
     const formData = JSON.parse(savedData);
     formInputs.forEach(input => {
-      if (formData[input.id] !== undefined) {
+      if (input.type !== 'file' && formData[input.id] !== undefined) {
         input.value = formData[input.id]; 
       }
     });
@@ -418,12 +473,21 @@ function loadCheckboxState() {
   }
 
 }
-
+function displayFormData() {
+  const formData = JSON.parse(localStorage.getItem('formData'));
+  if (formData) {
+    console.log("jjjjj")
+    document.getElementById('displayName').innerHTML = formData['name'];
+    document.getElementById('displayEmail').innerText = formData['email'];
+    document.getElementById('displayPhone').innerText = formData['phone'];
+  }
+}
 
 //  load function when the page loads
 window.addEventListener('load', () => {
   loadFormData();
   loadCheckboxState();
+  displayFormData();
 });
 
 // added event listeners to inputs for saving data
