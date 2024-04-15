@@ -5,7 +5,7 @@
 This is an assignment related to multi step form in javascript .
 
 
-**In this challenge, I used HTML, CSS and JavaScript.**
+**In this, I used HTML, CSS and JavaScript.**
 
 
 
