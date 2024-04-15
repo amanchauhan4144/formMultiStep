@@ -10,7 +10,7 @@ This is an assignment related to multi step form in javascript .
 
 
 # Overview :-
- I Created this page using html, css (flexbox,transition) and javascript.
+ I Created this page using html, css  and javascript.
  I  have used various events and validation to make sure the form follows all validation rules and provides great user experience.
  
 # Technologies Used :-
